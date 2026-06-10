@@ -1,3 +1,5 @@
+import { isAdSenseClientConfigured } from "@/lib/adsense";
+
 /** Pages where ads are allowed. Never on consent or sensitive data screens. */
 const AD_ALLOWED_PATHS = new Set([
   "/",
@@ -18,8 +20,7 @@ export function canShowAds(pathname: string): boolean {
 }
 
 export function isAdSenseConfigured(): boolean {
-  const client = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT ?? "";
-  return client.length > 0 && client !== "ca-pub-XXXXXXXXXXXXXXXX";
+  return isAdSenseClientConfigured();
 }
 
 export function isMetaPixelConfigured(): boolean {

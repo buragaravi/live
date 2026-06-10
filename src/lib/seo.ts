@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { APP_NAME } from "@/lib/constants";
+import { isAdSenseClientConfigured, getAdSenseClient } from "@/lib/adsense";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 export const SITE_TAGLINE =
@@ -111,6 +112,9 @@ export function rootMetadata(): Metadata {
       : {}),
     other: {
       contact: CONTACT_EMAIL,
+      ...(isAdSenseClientConfigured()
+        ? { "google-adsense-account": getAdSenseClient() }
+        : {}),
     },
   };
 }

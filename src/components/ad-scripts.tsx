@@ -3,39 +3,24 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useCookieConsent } from "@/components/cookie-consent-provider";
-import {
-  canShowAds,
-  isAdSenseConfigured,
-  isMetaPixelConfigured,
-} from "@/lib/ads";
+import { canShowAds, isMetaPixelConfigured } from "@/lib/ads";
 
 export function AdScripts() {
   const pathname = usePathname();
   const { consent, ready } = useCookieConsent();
 
-  const adsenseClient = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT;
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
-  const allowAds =
+  const allowMeta =
     ready &&
     consent === "all" &&
     canShowAds(pathname) &&
-    (isAdSenseConfigured() || isMetaPixelConfigured());
+    isMetaPixelConfigured();
 
-  if (!allowAds) return null;
+  if (!allowMeta) return null;
 
   return (
     <>
-      {isAdSenseConfigured() && adsenseClient ? (
-        <Script
-          id="google-adsense"
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      ) : null}
-
       {isMetaPixelConfigured() && metaPixelId ? (
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
