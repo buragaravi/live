@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#f7f7f5"/>
+  <rect x="48" y="48" width="1104" height="534" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Logo mark -->
+  <g transform="translate(96 118)">
+    <circle cx="100" cy="100" r="92" stroke="#111111" stroke-width="5" stroke-opacity="0.18"/>
+    <circle cx="100" cy="100" r="68" stroke="#111111" stroke-width="4" stroke-opacity="0.32"/>
+    <path fill="#111111" d="M100 18c-45.2 0-82 36.8-82 82 0 30.1 16.1 56.3 40.1 70.8L100 278l41.9-107.2c24-14.5 40.1-40.7 40.1-70.8 0-45.2-36.8-82-82-82z"/>
+    <path fill="#f7f7f5" d="M100 48c-28.7 0-52 23.3-52 52s23.3 52 52 52 52-23.3 52-52-23.3-52-52-52z"/>
+    <path stroke="#111111" stroke-width="7" stroke-linecap="square" d="M72 82H56v16M128 82h16v16M72 118H56v-16M128 118h16v-16"/>
+    <circle cx="100" cy="100" r="11" fill="#111111"/>
+    <path stroke="#111111" stroke-width="5" d="M100 89v22M89 100h22"/>
+    <path fill="#111111" fill-opacity="0.85" d="M100 236l-14 25h28l-14-25z"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="340" y="210" fill="#111111" font-family="system-ui,Segoe UI,sans-serif" font-size="88" font-weight="700" letter-spacing="-2">LOCATE</text>
+  <text x="340" y="290" fill="#5c5c5c" font-family="system-ui,Segoe UI,sans-serif" font-size="34">Consent-based location sharing</text>
+  <text x="340" y="350" fill="#5c5c5c" font-family="system-ui,Segoe UI,sans-serif" font-size="26">Pin-point GPS � Clear consent � No hidden tracking</text>
+  <!-- Decorative line -->
+  <rect x="340" y="380" width="120" height="4" fill="#111111"/>
+</svg>

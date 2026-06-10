@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["locate"]
+}
+
+enum ConsentStatus {
+  PENDING
+  DECLINED
+  ACCEPTED
+  GPS_DENIED
+
+  @@schema("locate")
+}
+
+enum ExpiryOption {
+  FIFTEEN_MIN
+  ONE_HOUR
+  TWENTY_FOUR_HOURS
+
+  @@schema("locate")
+}
+
+model Link {
+  id                String       @id @default(cuid())
+  slug              String       @unique
+  creatorName       String
+  purpose           String
+  destinationUrl    String
+  accessCodeHash    String
+  accessCodeLookup  String       @unique
+  expiryOption      ExpiryOption
+  expiresAt         DateTime
+  creatorConsentAt  DateTime
+  termsVersion      String       @default("1.0")
+  creatorLatitude   Float?
+  creatorLongitude  Float?
+  creatorAccuracy   Float?
+  creatorLocationAt DateTime?
+  createdAt         DateTime     @default(now())
+  events            LinkEvent[]
+
+  @@index([slug])
+  @@index([expiresAt])
+  @@schema("locate")
+}
+
+model LinkEvent {
+  id                String        @id @default(cuid())
+  linkId            String
+  link              Link          @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  ipAddress         String?
+  userAgent         String?
+  openedAt          DateTime      @default(now())
+  consentStatus     ConsentStatus @default(PENDING)
+  consentedAt       DateTime?
+  termsAcceptedAt   DateTime?
+  latitude          Float?
+  longitude         Float?
+  accuracy          Float?
+  locationTimestamp DateTime?
+  createdAt         DateTime      @default(now())
+
+  @@index([linkId])
+  @@index([openedAt])
+  @@schema("locate")
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="pinGrad" x1="144" y1="88" x2="368" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14b8a6"/>
+      <stop offset="0.5" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="138" y1="90" x2="374" y2="326" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bfa" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="pointGrad" x1="238" y1="368" x2="274" y2="424" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fb923c"/>
+      <stop offset="1" stop-color="#f43f5e"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="208" r="118" stroke="url(#ringGrad)" stroke-width="8"/>
+  <circle cx="256" cy="208" r="86" stroke="#22d3ee" stroke-width="5" stroke-opacity="0.45"/>
+  <path fill="url(#pinGrad)" d="M256 88c-61.9 0-112 50.1-112 112 0 41.2 22.1 77.2 55 97.1L256 424l57-126.9c32.9-19.9 55-55.9 55-97.1 0-61.9-50.1-112-112-112z"/>
+  <path fill="#ffffff" fill-opacity="0.95" d="M256 128c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/>
+  <path stroke="#6366f1" stroke-width="10" stroke-linecap="round" d="M214 176h-22v22M298 176h22v22M214 240h-22v-22M298 240h22v-22"/>
+  <circle cx="256" cy="208" r="16" fill="#fbbf24" stroke="#f59e0b" stroke-width="4"/>
+  <path stroke="#ea580c" stroke-width="6" stroke-linecap="round" d="M256 192v32M240 208h32"/>
+  <path fill="url(#pointGrad)" d="M256 368l-20 36h40l-20-36z"/>
+</svg>
