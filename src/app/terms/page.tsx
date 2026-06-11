@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 
 export default function TermsPage() {
   return (
-    <PageShell className="max-w-3xl">
+    <PageShell width="narrow">
       <PageHeader title="Terms of Use" />
       <Card className="space-y-6 p-6 text-sm leading-relaxed text-[var(--text)]">
         <section>

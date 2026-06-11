@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 
 export default function PrivacyPage() {
   return (
-    <PageShell className="max-w-3xl">
+    <PageShell width="narrow">
       <PageHeader
         title="Privacy Policy"
         description={`Last updated: ${PRIVACY_LAST_UPDATED}`}

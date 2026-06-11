@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCookieConsent } from "@/components/cookie-consent-provider";
 import { Button } from "@/components/ui";
+import { APP_GUTTER, APP_MAX_FULL } from "@/lib/ad-slots";
 
 export function CookieBanner() {
   const { showBanner, acceptAll, acceptEssential } = useCookieConsent();
@@ -15,7 +16,7 @@ export function CookieBanner() {
       aria-label="Cookie consent"
       className="fixed inset-x-0 bottom-0 z-[60] border-t border-[var(--border)] bg-white p-4 shadow-lg md:p-6"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className={`mx-auto flex w-full ${APP_MAX_FULL} ${APP_GUTTER} flex-col gap-4 md:flex-row md:items-center md:justify-between`}>
         <div className="max-w-3xl text-sm text-[var(--text-muted)]">
           <p className="font-medium text-[var(--text)]">Cookie preferences</p>
           <p className="mt-1 leading-relaxed">

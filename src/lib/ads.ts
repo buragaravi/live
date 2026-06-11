@@ -8,15 +8,23 @@ const AD_ALLOWED_PATHS = new Set([
   "/terms",
   "/privacy",
   "/results",
+  "/blog",
 ]);
 
-const AD_BLOCKED_PREFIXES = ["/l/", "/create/success", "/results/dashboard"];
+const AD_BLOCKED_PREFIXES = [
+  "/l/",
+  "/admin",
+  "/create/success",
+  "/results/dashboard",
+];
 
 export function canShowAds(pathname: string): boolean {
   if (AD_BLOCKED_PREFIXES.some((p) => pathname.startsWith(p))) {
     return false;
   }
-  return AD_ALLOWED_PATHS.has(pathname);
+  if (AD_ALLOWED_PATHS.has(pathname)) return true;
+  if (pathname.startsWith("/blog/")) return true;
+  return false;
 }
 
 export function isAdSenseConfigured(): boolean {

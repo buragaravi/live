@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default function ContactPage() {
   return (
-    <PageShell className="max-w-3xl">
+    <PageShell width="narrow">
       <PageHeader
         title="Contact"
         description="Reach us for support, privacy requests, or to report misuse."

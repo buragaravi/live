@@ -1,14 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { usePathname } from "next/navigation";
-import { useCookieConsent } from "@/components/cookie-consent-provider";
+import { useAdsReady } from "@/hooks/use-ads-ready";
+import { resolveAdSlot } from "@/lib/ad-slots";
 import { canShowAds, isAdSenseConfigured } from "@/lib/ads";
+
+type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical" | "sidebar";
 
 type Props = {
   slot?: string;
-  format?: "auto" | "rectangle" | "horizontal";
+  format?: AdFormat;
   className?: string;
+  label?: boolean;
 };
 
 declare global {
@@ -17,54 +21,84 @@ declare global {
   }
 }
 
+function slotStyles(format: AdFormat): CSSProperties {
+  switch (format) {
+    case "sidebar":
+    case "vertical":
+      return { display: "inline-block", width: "100%", minHeight: 250, maxWidth: 160 };
+    case "rectangle":
+      return { display: "block", width: "100%", minHeight: 250 };
+    case "horizontal":
+      return { display: "block", width: "100%", minHeight: 90 };
+    default:
+      return { display: "block", width: "100%" };
+  }
+}
+
 export function AdSlot({
   slot,
   format = "auto",
   className = "",
+  label = true,
 }: Props) {
   const pathname = usePathname();
-  const { consent, ready } = useCookieConsent();
+  const { adsActive } = useAdsReady();
   const pushed = useRef(false);
   const adRef = useRef<HTMLModElement>(null);
 
   const client = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT;
-  const adSlot = slot ?? process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT;
+  const adSlot = resolveAdSlot(slot);
   const configured = isAdSenseConfigured() && Boolean(adSlot);
 
   const visible =
-    ready &&
-    consent === "all" &&
-    configured &&
-    canShowAds(pathname);
+    adsActive && configured && canShowAds(pathname);
+
+  useEffect(() => {
+    pushed.current = false;
+  }, [adSlot, format, pathname]);
 
   useEffect(() => {
     if (!visible || pushed.current || !adRef.current) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      pushed.current = true;
-    } catch {
-      // AdSense not loaded yet
-    }
-  }, [visible]);
+
+    const pushAd = () => {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        pushed.current = true;
+      } catch {
+        // script not ready
+      }
+    };
+
+    pushAd();
+    const timer = setTimeout(pushAd, 800);
+    return () => clearTimeout(timer);
+  }, [visible, adSlot, format]);
 
   if (!visible) return null;
 
+  const isSidebar = format === "sidebar" || format === "vertical";
+  const adFormat = isSidebar ? undefined : format === "auto" ? "auto" : format;
+
   return (
     <div
-      className={`my-6 border border-dashed border-[var(--border-light)] bg-[#fafafa] p-2 ${className}`}
+      className={`${label ? "border border-dashed border-[var(--border-light)] bg-[#fafafa] p-2" : ""} ${className}`}
       aria-label="Advertisement"
     >
-      <p className="mb-2 text-center text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
-        Advertisement
-      </p>
+      {label ? (
+        <p className="mb-2 text-center text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+          Advertisement
+        </p>
+      ) : null}
       <ins
         ref={adRef}
-        className="adsbygoogle block"
-        style={{ display: "block" }}
+        className="adsbygoogle"
+        style={slotStyles(format)}
         data-ad-client={client}
         data-ad-slot={adSlot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
+        {...(adFormat ? { "data-ad-format": adFormat } : {})}
+        {...(format === "auto" || format === "horizontal"
+          ? { "data-full-width-responsive": "true" }
+          : {})}
       />
     </div>
   );

@@ -1,15 +1,28 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { APP_GUTTER, APP_MAX_FULL } from "@/lib/ad-slots";
+
+type PageShellProps = {
+  children: ReactNode;
+  className?: string;
+  /** narrow = readable prose (blog posts, legal). full = default, uses all available width */
+  width?: "full" | "narrow" | "medium";
+};
 
 export function PageShell({
   children,
   className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+  width = "full",
+}: PageShellProps) {
+  const widthClass =
+    width === "narrow"
+      ? "max-w-4xl mx-auto"
+      : width === "medium"
+        ? "max-w-6xl mx-auto"
+        : "w-full max-w-none";
+
   return (
-    <div className={`mx-auto w-full max-w-6xl px-4 py-8 md:px-6 ${className}`}>
+    <div className={`${widthClass} py-4 sm:py-6 md:py-8 ${className}`}>
       {children}
     </div>
   );
@@ -202,7 +215,7 @@ export function Badge({
 export function SiteNav() {
   return (
     <header className="border-b border-[var(--border-light)] bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
+      <div className={`mx-auto flex w-full ${APP_MAX_FULL} ${APP_GUTTER} items-center justify-between py-3`}>
         <Link href="/" className="text-sm font-semibold tracking-tight">
           LOCATE
         </Link>
@@ -212,6 +225,9 @@ export function SiteNav() {
           </Link>
           <Link href="/results" className="hover:text-[var(--text)]">
             Results
+          </Link>
+          <Link href="/blog" className="hover:text-[var(--text)]">
+            Blog
           </Link>
           <Link href="/about" className="hover:text-[var(--text)]">
             About

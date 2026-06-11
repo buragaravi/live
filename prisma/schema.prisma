@@ -69,3 +69,46 @@ model LinkEvent {
   @@index([openedAt])
   @@schema("locate")
 }
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+
+  @@schema("locate")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  posts        Post[]
+
+  @@schema("locate")
+}
+
+model Post {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  title           String
+  excerpt         String
+  content         String     @db.Text
+  coverImage      String?
+  category        String     @default("General")
+  tags            String     @default("")
+  metaTitle       String?
+  metaDescription String?
+  keywords        String     @default("")
+  status          PostStatus @default(DRAFT)
+  authorName      String
+  publishedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  authorId        String
+  author          Admin      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([status, publishedAt])
+  @@index([slug])
+  @@schema("locate")
+}

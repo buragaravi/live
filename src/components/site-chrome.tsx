@@ -3,15 +3,15 @@
 import { usePathname } from "next/navigation";
 import { SiteNav } from "@/components/ui";
 import { SiteFooter } from "@/components/site-footer";
-import { AdSlot } from "@/components/ad-slot";
+import { AppContentLayout } from "@/components/app-content-layout";
 import { AdSenseScript } from "@/components/adsense-script";
-import { canShowAds } from "@/lib/ads";
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isConsentFlow = pathname.startsWith("/l/");
+  const isMinimalChrome =
+    pathname.startsWith("/l/") || pathname.startsWith("/admin");
 
-  if (isConsentFlow) {
+  if (isMinimalChrome) {
     return <>{children}</>;
   }
 
@@ -19,8 +19,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     <>
       <AdSenseScript />
       <SiteNav />
-      <main>{children}</main>
-      {canShowAds(pathname) ? <AdSlot className="mx-auto max-w-6xl px-4 md:px-6" /> : null}
+      <main className="w-full">
+        <AppContentLayout>{children}</AppContentLayout>
+      </main>
       <SiteFooter />
     </>
   );

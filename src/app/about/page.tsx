@@ -13,7 +13,7 @@ export const metadata = pageMetadata({
 
 export default function AboutPage() {
   return (
-    <PageShell className="max-w-3xl">
+    <PageShell width="narrow">
       <PageHeader
         title="About"
         description={`${APP_NAME} helps people share GPS location only when everyone involved has clearly agreed.`}
